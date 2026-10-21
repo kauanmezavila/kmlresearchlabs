@@ -65,108 +65,13 @@ export default function Testimonials() {
         setLoading(true);
         setError(null);
 
-        const [orgResponse, readmeResponse] = await Promise.all([
-          fetch(
-            `https://api.github.com/orgs/${ORGANIZATION}/repos?type=public&sort=updated&direction=desc&per_page=100`,
-            {
-              headers: {
-                Accept: "application/vnd.github+json",
-              },
-              signal: controller.signal,
-            },
-          ),
-          fetch(
-            "https://raw.githubusercontent.com/KML-Research-Labs/.github/main/profile/README.md",
-            {
-              signal: controller.signal,
-            },
-          ),
-        ]);
+        const response = await fetch("/api/github", {
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error("Unable to load projects");
 
-        if (!orgResponse.ok && !readmeResponse.ok) {
-          throw new Error("Not able to load repos");
-        }
-
-        let organizationRepos: GitHubRepo[] = [];
-
-        if (orgResponse.ok) {
-          organizationRepos = (await orgResponse.json()) as GitHubRepo[];
-        }
-
-        const readme = readmeResponse.ok ? await readmeResponse.text() : "";
-
-        const matches = [
-          ...readme.matchAll(
-            /https?:\/\/github\.com\/([^/\s)#?]+)\/([^/\s)#?]+)/gi,
-          ),
-        ];
-
-        const targets = matches
-          .map((match) => ({
-            owner: match[1],
-            repo: match[2].replace(/\.git$/i, ""),
-          }))
-          .filter(
-            ({ owner, repo }) =>
-              Boolean(owner && repo) && repo.toLowerCase() !== ".github",
-          );
-
-        const uniqueTargets = [
-          ...new Map(
-            targets.map((target) => [
-              `${target.owner}/${target.repo}`.toLowerCase(),
-              target,
-            ]),
-          ).values(),
-        ];
-
-        const results = await Promise.all(
-          uniqueTargets.map(async ({ owner, repo }) => {
-            try {
-              const response = await fetch(
-                `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
-                {
-                  headers: {
-                    Accept: "application/vnd.github+json",
-                  },
-                  signal: controller.signal,
-                },
-              );
-
-              if (!response.ok) return null;
-
-              return (await response.json()) as GitHubRepo;
-            } catch (err) {
-              if (controller.signal.aborted) throw err;
-              return null;
-            }
-          }),
-        );
-
-        const combined = new Map<string, GitHubRepo>();
-
-        for (const repo of results) {
-          if (repo && !repo.archived) {
-            combined.set(repo.html_url.toLowerCase(), repo);
-          }
-        }
-
-        for (const repo of organizationRepos) {
-          if (!repo.archived && !combined.has(repo.html_url.toLowerCase())) {
-            combined.set(repo.html_url.toLowerCase(), repo);
-          }
-        }
-
-        const finalRepos = [...combined.values()];
-
-        if (
-          finalRepos.length === 0 &&
-          (!orgResponse.ok || !readmeResponse.ok)
-        ) {
-          throw new Error("Unable to load projects");
-        }
-
-        setRepos(finalRepos);
+        const data = (await response.json()) as { repos: GitHubRepo[] };
+        setRepos(data.repos.filter((repo) => !repo.archived));
       } catch (err) {
         if (controller.signal.aborted) return;
 

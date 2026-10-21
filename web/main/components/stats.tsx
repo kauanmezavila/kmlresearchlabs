@@ -4,20 +4,6 @@ import NumberFlow from "@number-flow/react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const ORGANIZATION = "KML-Research-Labs";
-
-type GitHubOrganization = {
-  public_repos: number;
-  followers: number;
-};
-
-type GitHubRepository = {
-  full_name: string;
-  html_url: string;
-  stargazers_count: number;
-  forks_count: number;
-};
-
 type OrganizationStats = {
   repositories: number;
   stars: number;
@@ -41,154 +27,18 @@ export default function Stats() {
   useEffect(() => {
     const controller = new AbortController();
 
-    async function fetchPublicRepos(): Promise<GitHubRepository[]> {
-      const repositories: GitHubRepository[] = [];
-      let page = 1;
-
-      while (true) {
-        const response = await fetch(
-          `https://api.github.com/orgs/${ORGANIZATION}/repos?type=public&per_page=100&page=${page}`,
-          {
-            headers: {
-              Accept: "application/vnd.github+json",
-            },
-            signal: controller.signal,
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to load repositories.");
-        }
-
-        const data = (await response.json()) as GitHubRepository[];
-
-        repositories.push(...data);
-
-        if (data.length < 100) break;
-        page++;
-      }
-
-      return repositories;
-    }
-
     async function loadStats() {
       try {
         setLoading(true);
         setError(false);
 
-        const [organizationResponse, readmeResponse, organizationRepos] =
-          await Promise.all([
-            fetch(`https://api.github.com/orgs/${ORGANIZATION}`, {
-              headers: {
-                Accept: "application/vnd.github+json",
-              },
-              signal: controller.signal,
-            }),
-            fetch(
-              "https://raw.githubusercontent.com/KML-Research-Labs/.github/main/profile/README.md",
-              { signal: controller.signal },
-            ),
-            fetchPublicRepos(),
-          ]);
-
-        if (!organizationResponse.ok) {
-          throw new Error("Failed to load organization.");
-        }
-
-        const organization = (await organizationResponse.json()) as {
-          followers: number;
-        };
-
-        const readme = readmeResponse.ok ? await readmeResponse.text() : "";
-
-        const matches = [
-          ...readme.matchAll(
-            /https?:\/\/github\.com\/([^/\s)#?]+)\/([^/\s)#?]+)/gi,
-          ),
-        ];
-
-        const excluded = new Set([
-          ".github",
-          "topics",
-          "orgs",
-          "users",
-          "sponsors",
-          "features",
-          "settings",
-          "marketplace",
-          "login",
-          "signup",
-          "explore",
-          "collections",
-        ]);
-
-        const targets = [
-          ...new Map(
-            matches
-              .map((match) => ({
-                owner: match[1],
-                repo: match[2].replace(/\.git$/i, "").replace(/[.,;:!?]+$/, ""),
-              }))
-              .filter(
-                ({ owner, repo }) =>
-                  owner &&
-                  repo &&
-                  !excluded.has(owner.toLowerCase()) &&
-                  !excluded.has(repo.toLowerCase()),
-              )
-              .map((target) => [
-                `${target.owner}/${target.repo}`.toLowerCase(),
-                target,
-              ]),
-          ).values(),
-        ];
-
-        const readmeRepos = await Promise.all(
-          targets.map(async ({ owner, repo }) => {
-            try {
-              const response = await fetch(
-                `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
-                {
-                  headers: {
-                    Accept: "application/vnd.github+json",
-                  },
-                  signal: controller.signal,
-                },
-              );
-
-              if (!response.ok) return null;
-
-              return (await response.json()) as GitHubRepository;
-            } catch (err) {
-              if (controller.signal.aborted) throw err;
-              return null;
-            }
-          }),
-        );
-
-        const uniqueRepos = new Map<string, GitHubRepository>();
-
-        for (const repo of organizationRepos) {
-          uniqueRepos.set(repo.full_name.toLowerCase(), repo);
-        }
-
-        for (const repo of readmeRepos) {
-          if (repo) {
-            uniqueRepos.set(repo.full_name.toLowerCase(), repo);
-          }
-        }
-
-        const allRepos = [...uniqueRepos.values()];
-
-        setStats({
-          repositories: allRepos.length,
-          stars: allRepos.reduce(
-            (total, repo) => total + repo.stargazers_count,
-            0,
-          ),
-          forks: allRepos.reduce((total, repo) => total + repo.forks_count, 0),
-          followers: organization.followers,
+        const response = await fetch("/api/github", {
+          signal: controller.signal,
         });
+        if (!response.ok) throw new Error("Could not load GitHub statistics.");
+
+        const data = (await response.json()) as { stats: OrganizationStats };
+        setStats(data.stats);
       } catch (err) {
         if (controller.signal.aborted) return;
 
@@ -275,7 +125,7 @@ export default function Stats() {
             <br />
             Check the data directly on the{" "}
             <a
-              href={`https://github.com/${ORGANIZATION}`}
+              href="https://github.com/KML-Research-Labs"
               target="_blank"
               rel="noopener noreferrer"
               className="underline underline-offset-4 hover:text-foreground"
