@@ -70,6 +70,17 @@ function RepositoryMirrorExplorer({ config }: { config: RepositoryMirrorConfig }
         `/api/gitcard?repo=${encodeURIComponent(config.slug)}&path=${encodeURIComponent(path)}`,
       );
       const result = await response.json();
+      if (!response.ok && path === "README.md" && response.status === 404) {
+        // Some repositories do not have a README.md at the root. Show their
+        // file list instead of leaving the mirror on a 404 error screen.
+        const rootResponse = await fetch(
+          `/api/gitcard?repo=${encodeURIComponent(config.slug)}&path=`,
+        );
+        const rootResult = await rootResponse.json();
+        if (!rootResponse.ok) throw new Error(rootResult.error || "Failed to load repository.");
+        setData(rootResult as ApiResult);
+        return;
+      }
       if (!response.ok) throw new Error(result.error || "Failed to load repository.");
       setData(result as ApiResult);
     } catch (err) {
