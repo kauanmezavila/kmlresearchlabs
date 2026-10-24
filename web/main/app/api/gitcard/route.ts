@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 const REPOSITORIES: Record<string, string> = {
   gitcard: "kauanmezavila/gitcard",
   JavaliDados: "kauanmezavila/JavaliDados",
+  MyFirstVM: "kauanmezavila/my-first-vm",
 };
 const BRANCH = "main";
 const CACHE_SECONDS = 300;
