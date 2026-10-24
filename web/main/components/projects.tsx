@@ -5,11 +5,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { ArrowUpRight, Globe } from "lucide-react";
 
-/**
- * ByKurebo (Kauan M.) its a amazing programmer, but he may have some mental problems
- * because WHO MAKES SO CRAP FAVICON PATHS??
- * **/
-
 const projects = [
   {
     name: "Peloponeso",
@@ -24,6 +19,13 @@ const projects = [
     href: "/harbor",
     researcher: "Kauan M.",
     favicon: "https://byharbor.vercel.app/font/favicon.svg",
+  },
+  {
+    name: "GitCard",
+    description: "Explore the source code, README and repository files directly on KML Research Labs.",
+    href: "/gitcard",
+    researcher: "Kauan M.",
+    favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
   },
   {
     name: "EtherBreaker",
