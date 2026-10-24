@@ -32,6 +32,13 @@ const projects = [
     researcher: "Kauan M.",
     favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
   },
+  {
+    name: "Oracle",
+    description: "Access the Oracle research",
+    href: "/oracle",
+    researcher: "Kauan M.",
+    favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
+  },
 ];
 
 function ProjectFavicon({ project }: { project: (typeof projects)[number] }) {
