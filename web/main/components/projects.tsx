@@ -49,6 +49,13 @@ const projects = [
     favicon:
       "https://raw.githubusercontent.com/kauanmezavila/JavaliDados/refs/heads/main/docs/assets/javalidados.svg",
   },
+  {
+    name: "BCBS-NetHunter",
+    description: "The NetHunter for Termux, but with the KML and BCBS touch",
+    href: "/BCBS-NetHunter",
+    researcher: "Kauan M.",
+    favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
+  },
 ];
 
 function ProjectFavicon({ project }: { project: (typeof projects)[number] }) {
