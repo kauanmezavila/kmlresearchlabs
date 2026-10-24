@@ -5,8 +5,9 @@ const REPOSITORIES: Record<string, string> = {
   JavaliDados: "kauanmezavila/JavaliDados",
   MyFirstVM: "kauanmezavila/my-first-vm",
 };
-const BRANCH = "main";
 const CACHE_SECONDS = 300;
+
+type GitHubRepository = { default_branch?: string };
 
 type GitHubItem = {
   name: string;
@@ -33,13 +34,29 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Invalid repository path." }, { status: 400 });
   }
 
-  const endpoint = `https://api.github.com/repos/${repository}/contents/${path}`;
+  const repositoryEndpoint = `https://api.github.com/repos/${repository}`;
   try {
-    const response = await fetch(`${endpoint}?ref=${BRANCH}`, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
+    const headers = {
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+    };
+    const repositoryResponse = await fetch(repositoryEndpoint, {
+      headers,
+      next: { revalidate: CACHE_SECONDS },
+    });
+
+    if (!repositoryResponse.ok) {
+      return NextResponse.json(
+        { error: repositoryResponse.status === 404 ? "Repository not found on GitHub." : "GitHub API is temporarily unavailable." },
+        { status: repositoryResponse.status === 404 ? 404 : 502 },
+      );
+    }
+
+    const metadata = (await repositoryResponse.json()) as GitHubRepository;
+    const branch = metadata.default_branch || "main";
+    const endpoint = `https://api.github.com/repos/${repository}/contents/${path}`;
+    const response = await fetch(`${endpoint}?ref=${encodeURIComponent(branch)}`, {
+      headers,
       next: { revalidate: CACHE_SECONDS },
     });
 
