@@ -21,8 +21,8 @@ const projects = [
     favicon: "https://byharbor.vercel.app/font/favicon.svg",
   },
   {
-    name: "GitCard",
-    description: "Explore the source code, README and repository files directly on KML Research Labs.",
+    name: "GitCard [MIRROR]",
+    description: "You github profile in a card, for free.",
     href: "/gitcard",
     researcher: "Kauan M.",
     favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
