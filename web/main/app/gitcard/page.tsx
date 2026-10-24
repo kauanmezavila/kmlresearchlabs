@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { ReadmeRenderer } from "@/components/readme-renderer";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -56,7 +55,6 @@ function GitCardExplorer() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
-  const [showReadme, setShowReadme] = useState(false);
 
   const selectedPath = requestedPath || "README.md";
 
@@ -69,7 +67,6 @@ function GitCardExplorer() {
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "Failed to load repository.");
       setData(result as ApiResult);
-      setShowReadme(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load GitCard.");
       setData(null);
@@ -254,7 +251,7 @@ function GitCardExplorer() {
                   </div>
                   {isMarkdown ? (
                     <div className="prose prose-sm dark:prose-invert max-w-none px-5 py-6 sm:px-8 sm:py-8 [&_a]:break-words [&_pre]:overflow-x-auto [&_pre]:rounded-xl [&_pre]:border [&_pre]:border-border [&_pre]:bg-muted/50 [&_code]:break-words">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{(data as FileResult).content}</ReactMarkdown>
+                      <ReadmeRenderer markdown={(data as FileResult).content} />
                     </div>
                   ) : (
                     <pre className="max-h-[75vh] overflow-auto bg-background p-5 text-xs leading-6 sm:p-8 sm:text-sm"><code>{(data as FileResult).content}</code></pre>
