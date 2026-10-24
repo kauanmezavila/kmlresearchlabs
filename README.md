@@ -6,14 +6,16 @@ KML Research Labs is a collection of projects, experiments, and applications bui
 
 The website is located in [`web/main`](web/main/) and is built with Next.js, React, TypeScript, and Tailwind CSS. Its homepage introduces KML Research Labs and highlights the projects. Dedicated routes provide access to project pages and research:
 
-| Route           | Project / content                                      |
-| --------------- | ------------------------------------------------------ |
-| `/peloponeso`   | Peloponeso web app                                     |
-| `/harbor`       | Harbor web app                                         |
-| `/gitcard`      | GitCard repository mirror                             |
-| `/JavaliDados`  | JavaliDados repository mirror                         |
-| `/EtherBreaker` | EtherBreaker repository README                        |
-| `/oracle`       | Oracle repository README                              |
+| Route             | Project / content                |
+| ----------------- | -------------------------------- |
+| `/peloponeso`     | Peloponeso web app               |
+| `/harbor`         | Harbor web app                   |
+| `/gitcard`        | GitCard repository mirror        |
+| `/JavaliDados`    | JavaliDados repository mirror    |
+| `/EtherBreaker`   | EtherBreaker repository README   |
+| `/oracle`         | Oracle repository README         |
+| `/BCBS-NetHunter` | BCBS-NetHunter repository README |
+| `/MyFirstVM`      | MyFirstVM mirror                 |
 
 The repository mirror and README pages load project information from GitHub. The site also includes GitHub API routes under `/api/github` and `/api/gitcard`.
 

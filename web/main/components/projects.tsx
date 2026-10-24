@@ -56,6 +56,14 @@ const projects = [
     researcher: "Kauan M.",
     favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
   },
+  {
+    name: "MyFirstVM [MIRROR]",
+    description:
+      "A simple Virtual Machine in python, it's don't follow any real BIOS/OS programming natural logic",
+    href: "/MyFirstVM",
+    researcher: "Kauan M.",
+    favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
+  },
 ];
 
 function ProjectFavicon({ project }: { project: (typeof projects)[number] }) {
