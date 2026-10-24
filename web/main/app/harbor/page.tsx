@@ -1,11 +1,5 @@
+import { ExternalAppPage } from "@/components/external-app-page";
+
 export default function HarborPage() {
-  return (
-    <main className="fixed inset-0 z-[100] h-dvh w-screen bg-white">
-      <iframe
-        src="https://byharbor.vercel.app/"
-        title="Projeto"
-        className="h-full w-full border-0"
-      />
-    </main>
-  );
+  return <ExternalAppPage src="https://byharbor.vercel.app/" title="Harbor" />;
 }

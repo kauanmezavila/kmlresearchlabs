@@ -41,6 +41,14 @@ const projects = [
     researcher: "Kauan M.",
     favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
   },
+  {
+    name: "JavaliDados [MIRROR]",
+    description: "A simple PT-BR sintaxe experimental language",
+    href: "/JavaliDados",
+    researcher: "Kauan M.",
+    favicon:
+      "https://raw.githubusercontent.com/kauanmezavila/JavaliDados/refs/heads/main/docs/assets/javalidados.svg",
+  },
 ];
 
 function ProjectFavicon({ project }: { project: (typeof projects)[number] }) {

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 
-const REPOSITORY = "kauanmezavila/gitcard";
+const REPOSITORIES: Record<string, string> = {
+  gitcard: "kauanmezavila/gitcard",
+  JavaliDados: "kauanmezavila/JavaliDados",
+};
 const BRANCH = "main";
 const CACHE_SECONDS = 300;
 
@@ -17,13 +20,19 @@ type GitHubItem = {
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
+  const repo = url.searchParams.get("repo") ?? "gitcard";
+  const repository = REPOSITORIES[repo];
   const path = (url.searchParams.get("path") ?? "").replace(/^\/+|\/+$/g, "");
+
+  if (!repository) {
+    return NextResponse.json({ error: "Unsupported repository." }, { status: 400 });
+  }
 
   if (path.split("/").some((segment) => segment === "." || segment === "..")) {
     return NextResponse.json({ error: "Invalid repository path." }, { status: 400 });
   }
 
-  const endpoint = `https://api.github.com/repos/${REPOSITORY}/contents/${path}`;
+  const endpoint = `https://api.github.com/repos/${repository}/contents/${path}`;
   try {
     const response = await fetch(`${endpoint}?ref=${BRANCH}`, {
       headers: {
@@ -35,7 +44,7 @@ export async function GET(request: Request) {
 
     if (!response.ok) {
       return NextResponse.json(
-        { error: response.status === 404 ? "Path not found in GitCard." : "GitHub API is temporarily unavailable." },
+        { error: response.status === 404 ? "Path not found in repository." : "GitHub API is temporarily unavailable." },
         { status: response.status === 404 ? 404 : 502 },
       );
     }
@@ -90,7 +99,7 @@ export async function GET(request: Request) {
       { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } },
     );
   } catch (error) {
-    console.error("GitCard mirror request failed:", error);
-    return NextResponse.json({ error: "Could not load GitCard from GitHub." }, { status: 502 });
+    console.error("Repository mirror request failed:", error);
+    return NextResponse.json({ error: "Could not load repository from GitHub." }, { status: 502 });
   }
 }
