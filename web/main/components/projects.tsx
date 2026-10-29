@@ -64,6 +64,14 @@ const projects = [
     researcher: "Kauan M.",
     favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
   },
+  {
+    name: "Resenhudo [MIRROR]",
+    description: "O bot mais resenha do Brasil!",
+    href: "/resenhudo",
+    researcher: "Kauan M.",
+    favicon:
+      "https://raw.githubusercontent.com/kauanmezavila/resenhudo/refs/heads/main/media/THEPCISTA.jpg",
+  },
 ];
 
 function ProjectFavicon({ project }: { project: (typeof projects)[number] }) {

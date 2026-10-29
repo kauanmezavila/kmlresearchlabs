@@ -4,6 +4,7 @@ const REPOSITORIES: Record<string, string> = {
   gitcard: "kauanmezavila/gitcard",
   JavaliDados: "kauanmezavila/JavaliDados",
   MyFirstVM: "kauanmezavila/my-first-vm",
+  resenhudo: "kauanmezavila/resenhudo",
 };
 const CACHE_SECONDS = 300;
 
@@ -27,11 +28,17 @@ export async function GET(request: Request) {
   const path = (url.searchParams.get("path") ?? "").replace(/^\/+|\/+$/g, "");
 
   if (!repository) {
-    return NextResponse.json({ error: "Unsupported repository." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Unsupported repository." },
+      { status: 400 },
+    );
   }
 
   if (path.split("/").some((segment) => segment === "." || segment === "..")) {
-    return NextResponse.json({ error: "Invalid repository path." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid repository path." },
+      { status: 400 },
+    );
   }
 
   const repositoryEndpoint = `https://api.github.com/repos/${repository}`;
@@ -47,7 +54,12 @@ export async function GET(request: Request) {
 
     if (!repositoryResponse.ok) {
       return NextResponse.json(
-        { error: repositoryResponse.status === 404 ? "Repository not found on GitHub." : "GitHub API is temporarily unavailable." },
+        {
+          error:
+            repositoryResponse.status === 404
+              ? "Repository not found on GitHub."
+              : "GitHub API is temporarily unavailable.",
+        },
         { status: repositoryResponse.status === 404 ? 404 : 502 },
       );
     }
@@ -55,14 +67,22 @@ export async function GET(request: Request) {
     const metadata = (await repositoryResponse.json()) as GitHubRepository;
     const branch = metadata.default_branch || "main";
     const endpoint = `https://api.github.com/repos/${repository}/contents/${path}`;
-    const response = await fetch(`${endpoint}?ref=${encodeURIComponent(branch)}`, {
-      headers,
-      next: { revalidate: CACHE_SECONDS },
-    });
+    const response = await fetch(
+      `${endpoint}?ref=${encodeURIComponent(branch)}`,
+      {
+        headers,
+        next: { revalidate: CACHE_SECONDS },
+      },
+    );
 
     if (!response.ok) {
       return NextResponse.json(
-        { error: response.status === 404 ? "Path not found in repository." : "GitHub API is temporarily unavailable." },
+        {
+          error:
+            response.status === 404
+              ? "Path not found in repository."
+              : "GitHub API is temporarily unavailable.",
+        },
         { status: response.status === 404 ? 404 : 502 },
       );
     }
@@ -86,21 +106,33 @@ export async function GET(request: Request) {
 
       return NextResponse.json(
         { type: "directory", path, items },
-        { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } },
+        {
+          headers: {
+            "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+          },
+        },
       );
     }
 
     if (data.type !== "file") {
-      return NextResponse.json({ error: "Unsupported repository item." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Unsupported repository item." },
+        { status: 400 },
+      );
     }
 
     let content = "";
     if (data.content && data.encoding === "base64") {
       content = Buffer.from(data.content, "base64").toString("utf-8");
     } else if (data.download_url) {
-      const rawResponse = await fetch(data.download_url, { next: { revalidate: CACHE_SECONDS } });
+      const rawResponse = await fetch(data.download_url, {
+        next: { revalidate: CACHE_SECONDS },
+      });
       if (!rawResponse.ok) {
-        return NextResponse.json({ error: "Could not read file contents." }, { status: 502 });
+        return NextResponse.json(
+          { error: "Could not read file contents." },
+          { status: 502 },
+        );
       }
       content = await rawResponse.text();
     }
@@ -114,10 +146,17 @@ export async function GET(request: Request) {
         html_url: data.html_url,
         content,
       },
-      { headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600" } },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        },
+      },
     );
   } catch (error) {
     console.error("Repository mirror request failed:", error);
-    return NextResponse.json({ error: "Could not load repository from GitHub." }, { status: 502 });
+    return NextResponse.json(
+      { error: "Could not load repository from GitHub." },
+      { status: 502 },
+    );
   }
 }
