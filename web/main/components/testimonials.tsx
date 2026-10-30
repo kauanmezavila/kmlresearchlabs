@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import {
   Star,
@@ -68,9 +67,15 @@ export default function Testimonials() {
         const response = await fetch("/api/github", {
           signal: controller.signal,
         });
-        if (!response.ok) throw new Error("Unable to load projects");
 
-        const data = (await response.json()) as { repos: GitHubRepo[] };
+        if (!response.ok) {
+          throw new Error("Unable to load projects");
+        }
+
+        const data = (await response.json()) as {
+          repos: GitHubRepo[];
+        };
+
         setRepos(data.repos.filter((repo) => !repo.archived));
       } catch (err) {
         if (controller.signal.aborted) return;
@@ -95,32 +100,26 @@ export default function Testimonials() {
   return (
     <section id="repositories" className="px-3 py-16 sm:px-4 sm:py-24">
       <div className="mx-auto max-w-6xl">
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-12 flex flex-col items-center gap-3 text-center sm:mb-16"
-        >
+        <div className="mb-12 flex flex-col items-center gap-3 text-center sm:mb-16">
           <h2 className="bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-xl font-semibold text-transparent sm:text-4xl">
-            See what we are working
+            Recent work on GitHub
           </h2>
 
           <p className="mx-auto max-w-xl text-center text-muted-foreground">
-            Explore our open source projects, tools and solutions developeds.
+            A live list of public repositories from our organization and project pages.
           </p>
 
           <a
             href={`https://github.com/${ORGANIZATION}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="mt-2 inline-flex items-center gap-2 text-sm text-muted-foreground"
           >
             <Github className="size-4" />
-            See organization
+            View organization
             <ExternalLink className="size-3.5" />
           </a>
-        </motion.div>
+        </div>
 
         {loading && (
           <div
@@ -130,7 +129,7 @@ export default function Testimonials() {
             {Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
-                className="h-52 animate-pulse rounded-xl border border-border bg-card p-5"
+                className="h-52 rounded-xl border border-border bg-card p-5"
               >
                 <div className="mb-5 h-5 w-2/3 rounded bg-muted" />
                 <div className="mb-2 h-3 w-full rounded bg-muted" />
@@ -149,7 +148,7 @@ export default function Testimonials() {
               href={`https://github.com/${ORGANIZATION}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 inline-flex items-center gap-2 text-sm font-medium hover:underline"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-medium"
             >
               Open the source
               <ExternalLink className="size-4" />
@@ -159,25 +158,17 @@ export default function Testimonials() {
 
         {!loading && !error && repos.length === 0 && (
           <p className="py-10 text-center text-sm text-muted-foreground">
-            No public repo found
+            No public repositories found.
           </p>
         )}
 
         {!loading && !error && repos.length > 0 && (
           <>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {visibleRepos.map((repo, index) => (
-                <motion.article
+              {visibleRepos.map((repo) => (
+                <article
                   key={repo.id}
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.45,
-                    delay: (index % visibleCount) * 0.06,
-                    ease: "easeOut",
-                  }}
-                  className="group flex min-w-0 flex-col rounded-xl border border-border bg-card p-5 transition-colors duration-300 hover:border-primary/40 hover:bg-muted/30 sm:p-6"
+                  className="flex min-w-0 flex-col rounded-xl border border-border bg-card p-5 sm:p-6"
                 >
                   <div className="mb-4 flex items-start justify-between gap-3">
                     <div className="flex min-w-0 items-center gap-2.5">
@@ -190,11 +181,11 @@ export default function Testimonials() {
                       >
                         <img
                           src={repo.owner.avatar_url}
-                          alt={`${repo.owner.login}`}
+                          alt={repo.owner.login}
                           width={32}
                           height={32}
                           loading="lazy"
-                          className="size-8 rounded-full border border-border object-cover transition-transform duration-200 group-hover:scale-105"
+                          className="size-8 rounded-full border border-border object-cover"
                         />
                       </a>
 
@@ -203,7 +194,7 @@ export default function Testimonials() {
                           href={repo.html_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="outline-none hover:text-primary focus-visible:underline"
+                          className="outline-none focus-visible:underline"
                         >
                           {repo.name}
                         </a>
@@ -215,14 +206,14 @@ export default function Testimonials() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Abrir repositório ${repo.name} no GitHub`}
-                      className="shrink-0 text-muted-foreground transition-colors hover:text-foreground"
+                      className="shrink-0 text-muted-foreground"
                     >
                       <ExternalLink className="size-4" />
                     </a>
                   </div>
 
                   <p className="mb-5 line-clamp-3 min-h-[3.75rem] text-sm leading-relaxed text-muted-foreground">
-                    {repo.description || "Repositório sem descrição definida."}
+                    {repo.description || "No description"}
                   </p>
 
                   {repo.topics.length > 0 && (
@@ -261,7 +252,7 @@ export default function Testimonials() {
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <CalendarDays className="size-3.5 shrink-0" />
                       <span>
-                        Updated at{" "}
+                        Updated{" "}
                         {new Intl.DateTimeFormat("pt-BR", {
                           day: "2-digit",
                           month: "short",
@@ -270,7 +261,7 @@ export default function Testimonials() {
                       </span>
                     </div>
                   </div>
-                </motion.article>
+                </article>
               ))}
             </div>
 
@@ -280,7 +271,7 @@ export default function Testimonials() {
                   variant="ghost"
                   onClick={() => setShowAll((previous) => !previous)}
                 >
-                  {showAll ? "Show less" : "Show more"}
+                  {showAll ? "Show fewer" : "Show all repositories"}
                 </Button>
               </div>
             )}

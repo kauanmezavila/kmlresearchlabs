@@ -10,8 +10,7 @@ const geist = Geist({
 
 export const metadata: Metadata = {
   title: "KML Research Labs",
-  description:
-    "Precision-driven research. Uncompromising innovation. A new standard for what's next.",
+  description: "Open source projects and experiments from KML Research Labs.",
   icons: {
     icon: [{ url: "/svg/kml-icon.svg", type: "image/svg+xml" }],
   },

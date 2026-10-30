@@ -1,7 +1,5 @@
 "use client";
 
-import NumberFlow from "@number-flow/react";
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 type OrganizationStats = {
@@ -19,7 +17,6 @@ const initialStats: OrganizationStats = {
 };
 
 export default function Stats() {
-  const [animate, setAnimate] = useState(false);
   const [stats, setStats] = useState(initialStats);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -35,9 +32,15 @@ export default function Stats() {
         const response = await fetch("/api/github", {
           signal: controller.signal,
         });
-        if (!response.ok) throw new Error("Could not load GitHub statistics.");
 
-        const data = (await response.json()) as { stats: OrganizationStats };
+        if (!response.ok) {
+          throw new Error("Could not load GitHub statistics.");
+        }
+
+        const data = (await response.json()) as {
+          stats: OrganizationStats;
+        };
+
         setStats(data.stats);
       } catch (err) {
         if (controller.signal.aborted) return;
@@ -78,24 +81,15 @@ export default function Stats() {
   return (
     <section className="px-4 py-20">
       <div className="mx-auto max-w-6xl">
-        <motion.div
-          className="grid grid-cols-2 gap-8 md:grid-cols-4"
-          onViewportEnter={() => setAnimate(true)}
-          viewport={{ once: true, amount: 0.4 }}
-        >
-          {items.map((item, index) => (
-            <motion.div
-              key={item.label}
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.1,
-                ease: "easeOut",
-              }}
-              className="text-center"
-            >
+        <div className="mb-10">
+          <h2 className="text-2xl font-semibold tracking-tight">Our stats</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Across our public GitHub projects.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          {items.map((item) => (
+            <div key={item.label} className="text-center">
               <div
                 className="mb-2 text-3xl font-bold md:text-4xl"
                 aria-live="polite"
@@ -103,21 +97,16 @@ export default function Stats() {
                 {loading || error ? (
                   <span className="text-muted-foreground">—</span>
                 ) : (
-                  <NumberFlow
-                    value={animate ? item.value : 0}
-                    format={{
-                      maximumFractionDigits: 0,
-                    }}
-                  />
+                  item.value.toLocaleString("en-US")
                 )}
               </div>
 
               <div className="text-sm font-medium text-muted-foreground">
                 {item.label}
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {error && (
           <p className="mt-6 text-center text-sm text-muted-foreground">

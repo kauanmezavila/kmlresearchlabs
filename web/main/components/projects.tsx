@@ -1,28 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { ArrowUpRight, Globe } from "lucide-react";
 
 const projects = [
   {
     name: "Peloponeso",
-    description: "The free library, forever and ever.",
+    description: "A free library for sharing and finding books.",
     href: "/peloponeso",
     researcher: "Kauan M.",
     favicon: "https://peloponeso.vercel.app/img/favicon.svg",
   },
   {
     name: "Harbor",
-    description: "Distribute your github projects in a simple way.",
+    description: "A simple way to share your GitHub projects.",
     href: "/harbor",
     researcher: "Kauan M.",
     favicon: "https://byharbor.vercel.app/font/favicon.svg",
   },
   {
     name: "GitCard [MIRROR]",
-    description: "You github profile in a card, for free.",
+    description: "Turn your GitHub profile into a shareable card.",
     href: "/gitcard",
     researcher: "Kauan M.",
     favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
@@ -43,7 +42,7 @@ const projects = [
   },
   {
     name: "JavaliDados [MIRROR]",
-    description: "A simple PT-BR sintaxe experimental language",
+    description: "An experimental language with Portuguese syntax.",
     href: "/JavaliDados",
     researcher: "Kauan M.",
     favicon:
@@ -51,7 +50,7 @@ const projects = [
   },
   {
     name: "BCBS-NetHunter",
-    description: "The NetHunter for Termux, but with the KML and BCBS touch",
+    description: "A NetHunter setup for Termux, built with BCBS.",
     href: "/BCBS-NetHunter",
     researcher: "Kauan M.",
     favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
@@ -59,7 +58,7 @@ const projects = [
   {
     name: "MyFirstVM [MIRROR]",
     description:
-      "A simple Virtual Machine in python, it's don't follow any real BIOS/OS programming natural logic",
+      "A small Python virtual machine experiment, separate from real BIOS and OS behavior.",
     href: "/MyFirstVM",
     researcher: "Kauan M.",
     favicon: "https://kmlresearchlabs.vercel.app/svg/kml-icon.svg",
@@ -98,47 +97,29 @@ function ProjectFavicon({ project }: { project: (typeof projects)[number] }) {
 
 export default function Projects() {
   return (
-    <section id="projects" className="px-4 py-16 sm:py-24">
+      <section id="projects" className="px-4 py-16 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-12 flex flex-col gap-3 text-center sm:mb-16"
-        >
+        <div className="mb-12 flex flex-col gap-3 text-center sm:mb-16">
           <h2 className="bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-2xl font-semibold text-transparent sm:text-4xl">
             Our Projects
           </h2>
 
           <p className="mx-auto max-w-xl text-muted-foreground">
-            Explore the projects and applications built by KML Research Labs
-            people.
+            Projects and experiments from the people behind KML Research Labs.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project, index) => (
-            <motion.article
-              key={project.href}
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.08,
-                ease: "easeOut",
-              }}
-              className="h-full"
-            >
+          {projects.map((project) => (
+            <article key={project.href} className="h-full">
               <Link
                 href={project.href}
-                className="group flex h-full min-h-52 flex-col rounded-xl border border-border bg-card p-5 transition-colors duration-300 hover:border-primary/40 hover:bg-muted/30 sm:p-6"
+                className="group flex h-full min-h-52 flex-col rounded-xl border border-border bg-card p-5 hover:border-primary/40 hover:bg-muted/30 sm:p-6"
               >
                 <div className="mb-5 flex items-center justify-between">
                   <ProjectFavicon project={project} />
 
-                  <ArrowUpRight className="size-5 text-muted-foreground transition-transform duration-200 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-foreground" />
+                  <ArrowUpRight className="size-5 text-muted-foreground group-hover:text-foreground" />
                 </div>
 
                 <h3 className="mb-2 text-lg font-semibold tracking-tight">
@@ -154,13 +135,13 @@ export default function Projects() {
                 </p>
 
                 <div className="mt-6 border-t border-border pt-4">
-                  <span className="text-sm font-medium transition-colors group-hover:text-primary">
+                  <span className="text-sm font-medium group-hover:text-primary">
                     Visit project
                     <span aria-hidden="true"> ↗</span>
                   </span>
                 </div>
               </Link>
-            </motion.article>
+            </article>
           ))}
         </div>
       </div>
