@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f3ed" />
+
+    <title>NextLab</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --paper: #f5f3ed;
+        --white: #fffefa;
+        --ink: #24241f;
+        --muted: #85847b;
+        --line: #e5e2d9;
+        --accent: #0066ff;
+        --serif: "Playfair Display", Georgia, serif;
+        --sans: "DM Sans", sans-serif;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+      }
+
+      button,
+      textarea {
+        font: inherit;
+        border-radius: 10px;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      .navbar {
+        height: 76px;
+        border-bottom: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        padding: 0 7%;
+      }
+
+      .logo {
+        font-family: var(--serif);
+        font-size: 25px;
+        font-weight: 700;
+        letter-spacing: -1.2px;
+        text-decoration: none;
+        color: var(--ink);
+      }
+
+      .logo span {
+        color: var(--accent);
+      }
+
+      .container {
+        max-width: 1120px;
+        margin: auto;
+        padding: 65px 30px;
+      }
+
+      .hero {
+        margin-bottom: 60px;
+      }
+
+      .hero h1 {
+        font-family: var(--serif);
+        font-size: clamp(42px, 6vw, 72px);
+        line-height: 1.04;
+        letter-spacing: -2px;
+        font-weight: 500;
+      }
+
+      .hero h1 em {
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .composer {
+        background: var(--white);
+        border-radius: 10px;
+        padding: 25px 28px;
+        margin-bottom: 55px;
+      }
+
+      .composer-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 600;
+      }
+
+      textarea {
+        display: block;
+        width: 100%;
+        min-height: 105px;
+        resize: vertical;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: var(--ink);
+        font-family: var(--serif);
+        font-size: 23px;
+        line-height: 1.5;
+      }
+
+      textarea::placeholder {
+        color: #b8b5ab;
+      }
+
+      .composer-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid var(--line);
+        padding-top: 17px;
+      }
+
+      .char-count {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .publish-btn {
+        background: var(--ink);
+        color: white;
+        border: none;
+        padding: 12px 22px;
+        font-size: 13px;
+        transition: 0.2s;
+      }
+
+      .publish-btn:hover {
+        background: var(--accent);
+      }
+
+      .publish-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .feed-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 17px;
+        margin-bottom: 25px;
+      }
+
+      .feed-title {
+        font-family: var(--serif);
+        font-size: 27px;
+        font-weight: 500;
+      }
+
+      .search-input {
+        width: 320px;
+        max-width: 45%;
+        padding: 12px 15px;
+        border: none;
+        border-bottom: 1px solid var(--line);
+        background: var(--paper);
+        color: var(--ink);
+        font-size: 12px;
+        outline: none;
+      }
+
+      .search-input:focus {
+        border-color: var(--accent);
+      }
+
+      .search-input::placeholder {
+        color: #aaa79d;
+      }
+
+      @media (max-width: 700px) {
+        .feed-header {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 15px;
+        }
+
+        .search-input {
+          width: 100%;
+          max-width: 100%;
+        }
+      }
+
+      .quote-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .quote-card {
+        background: var(--white);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 27px;
+        display: flex;
+        flex-direction: column;
+        min-height: 245px;
+        animation: appear 0.35s ease;
+        transition: 0.25s;
+      }
+
+      .quote-card:hover {
+        border-color: #c8c2b5;
+        transform: translateY(-2px);
+      }
+
+      @keyframes appear {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .quote-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 24px;
+      }
+
+      .quote-id {
+        color: var(--muted);
+        font-size: 10px;
+        overflow-wrap: anywhere;
+      }
+
+      .quote-date {
+        color: #aaa79d;
+        font-size: 10px;
+        white-space: nowrap;
+      }
+
+      .quote-text {
+        flex: 1;
+        overflow-wrap: anywhere;
+        font-family: var(--serif);
+        font-size: 21px;
+        line-height: 1.55;
+        letter-spacing: -0.3px;
+      }
+
+      .quote-bottom {
+        border-top: 1px solid var(--line);
+        margin-top: 25px;
+        padding-top: 16px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .action-btn {
+        border: none;
+        background: var(--paper);
+        color: var(--muted);
+        font-size: 11px;
+        padding: 8px;
+        transition: 0.2s;
+      }
+
+      .action-btn:hover {
+        color: var(--accent);
+      }
+
+      .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 75px 20px;
+        color: var(--muted);
+      }
+
+      .empty-state h3 {
+        font-family: var(--serif);
+        font-size: 25px;
+        color: var(--ink);
+        margin-bottom: 10px;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        margin-top: 90px;
+        padding: 25px 7%;
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 10px;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 25px;
+        left: 50%;
+        transform: translate(-50%, 20px);
+        background: var(--ink);
+        border-radius: 10px;
+        color: white;
+        padding: 14px 23px;
+        font-size: 12px;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s;
+        z-index: 10;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      @media (max-width: 700px) {
+        .navbar {
+          padding: 0 20px;
+        }
+
+        .container {
+          padding: 45px 18px;
+        }
+
+        .hero {
+          margin-bottom: 40px;
+        }
+
+        .composer {
+          padding: 20px;
+        }
+
+        textarea {
+          font-size: 20px;
+        }
+
+        .quote-grid {
+          grid-template-columns: 1fr;
+        }
+
+        footer {
+          padding: 25px 20px;
+          gap: 15px;
+          flex-direction: column;
+        }
+      }
+
+      @media (max-width: 400px) {
+        .composer-footer {
+          align-items: flex-start;
+          gap: 12px;
+          flex-direction: column;
+        }
+
+        .publish-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <a class="logo" href="#">Next<span>Lab</span></a>
+    </nav>
+
+    <main class="container">
+      <section class="hero">
+        <h1>
+          Where<em> doubts</em><br />
+          can be resolved
+        </h1>
+      </section>
+
+      <section class="composer">
+        <div class="composer-header">
+          <span>What you want to see be real?</span>
+        </div>
+
+        <textarea
+          id="quoteInput"
+          maxlength="280"
+          placeholder="Write a doubt, a curiosity..."
+        ></textarea>
+
+        <div class="composer-footer">
+          <span class="char-count"> <span id="charCount">0</span> / 280 </span>
+
+          <button class="publish-btn" id="publishBtn">Publish →</button>
+        </div>
+      </section>
+
+      <section class="feed">
+        <div class="feed-header">
+          <h2 class="feed-title">Search your next research.</h2>
+
+          <input
+            type="search"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search for something..."
+            autocomplete="off"
+            aria-label="Search quotes"
+          />
+        </div>
+
+        <div class="quote-grid" id="quoteGrid">
+          <div class="empty-state">
+            <h3>Loading...</h3>
+            <p>Pushing other people doubts...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <strong>NextLab</strong>
+      <span>All rights reserved © 2026</span>
+      <span>Where doubts can be resolved.</span>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+      const SUPABASE_URL = "https://piqbcvtryxbgqtoindwc.supabase.co";
+      const SUPABASE_PUBLISHABLE_KEY =
+        "sb_publishable_26oYSxy8nJNAM7MqzNDSzw_qhaKUlpe";
+
+      const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY,
+      );
+
+      const searchInput = document.getElementById("searchInput");
+
+      let searchTimer;
+      let latestSearchRequest = 0;
+
+      const grid = document.getElementById("quoteGrid");
+      const input = document.getElementById("quoteInput");
+      const charCount = document.getElementById("charCount");
+      const publishBtn = document.getElementById("publishBtn");
+      const toast = document.getElementById("toast");
+
+      let quotes = [];
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2500);
+      }
+
+      function escapeHTML(value) {
+        return String(value).replace(
+          /[&<>"']/g,
+          (char) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            })[char],
+        );
+      }
+
+      function formatDate(timestamp) {
+        const date = new Date(timestamp);
+        const diff = Math.max(0, Date.now() - date.getTime());
+
+        if (diff < 60000) return "Just now";
+        if (diff < 3600000) return Math.floor(diff / 60000) + " min ago";
+        if (diff < 86400000) return Math.floor(diff / 3600000) + " hours ago";
+
+        return date.toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "short",
+        });
+      }
+
+      async function loadQuotes(searchTerm = "") {
+        const requestId = ++latestSearchRequest;
+        const term = searchTerm.trim();
+
+        let query = supabaseClient
+          .from("quotes")
+          .select("id, content, created_at");
+
+        if (term) {
+          query = query.ilike("content", `%${term}%`);
+        }
+
+        const { data, error } = await query
+          .order("created_at", { ascending: false })
+          .limit(100);
+
+        if (requestId !== latestSearchRequest) return;
+
+        if (error) {
+          console.error("Error loading quotes:", error);
+
+          grid.innerHTML = `
+      <div class="empty-state">
+        <h3>Could not load the collection.</h3>
+        <p>Please try again later.</p>
+      </div>
+    `;
+
+          return;
+        }
+
+        quotes = data || [];
+        renderQuotes(term);
+      }
+
+      function renderQuotes(searchTerm = searchInput.value.trim()) {
+        if (!quotes.length) {
+          grid.innerHTML = `
+    <div class="empty-state">
+      <h3>${searchTerm ? "No results found." : "Nothing here. Yet."}</h3>
+      <p>${
+        searchTerm
+          ? "Try searching for something else."
+          : "Be the first to leave something behind."
+      }
+      </p>
+    </div>
+  `;
+
+          return;
+        }
+        grid.innerHTML = quotes
+          .map(
+            (q) => `
+        <article class="quote-card" title="ID: ${escapeHTML(q.id)}">
+
+          <div class="quote-top">
+            <span class="quote-id">
+              <b>${escapeHTML(q.id)}</b>
+            </span>
+
+            <span class="quote-date">
+              ${formatDate(q.created_at)}
+            </span>
+          </div>
+
+          <p class="quote-text">
+            ${escapeHTML(q.content)}
+          </p>
+
+          <div class="quote-bottom">
+            <button
+              class="action-btn"
+              data-action="copy"
+              data-id="${escapeHTML(q.id)}"
+              aria-label="Copy quote"
+            >
+              Copy ↗
+            </button>
+          </div>
+
+        </article>
+      `,
+          )
+          .join("");
+      }
+
+      async function publishQuote() {
+        const content = input.value.trim();
+
+        if (!content) {
+          showToast("Write something first.");
+          return;
+        }
+
+        if (content.length > 280) {
+          showToast("Maximum 280 characters.");
+          return;
+        }
+
+        publishBtn.disabled = true;
+        publishBtn.textContent = "Publishing...";
+
+        const { data, error } = await supabaseClient
+          .from("quotes")
+          .insert({ content })
+          .select("id, content, created_at")
+          .single();
+
+        publishBtn.disabled = false;
+        publishBtn.textContent = "Publish →";
+
+        if (error) {
+          console.error("Error publishing quote:", error);
+          showToast("Could not publish. Try again.");
+          return;
+        }
+
+        input.value = "";
+        charCount.textContent = "0";
+
+        await loadQuotes(searchInput.value);
+        showToast("Someone is grateful in the future");
+      }
+
+      async function copyQuote(content) {
+        try {
+          await navigator.clipboard.writeText(content);
+          showToast("Quote copied.");
+        } catch (error) {
+          console.error("Copy error:", error);
+          showToast("Could not copy this quote.");
+        }
+      }
+
+      input.addEventListener("input", () => {
+        charCount.textContent = input.value.length;
+      });
+
+      publishBtn.addEventListener("click", publishQuote);
+
+      input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+          publishQuote();
+        }
+      });
+
+      grid.addEventListener("click", (event) => {
+        const button = event.target.closest('[data-action="copy"]');
+
+        if (!button) return;
+
+        const quote = quotes.find((q) => q.id === button.dataset.id);
+
+        if (quote) {
+          copyQuote(quote.content);
+        }
+      });
+
+      searchInput.addEventListener("input", () => {
+        clearTimeout(searchTimer);
+
+        searchTimer = setTimeout(() => {
+          loadQuotes(searchInput.value);
+        }, 350);
+      });
+
+      loadQuotes();
+    </script>
+  </body>
+</html>

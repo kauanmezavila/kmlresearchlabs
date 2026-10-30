@@ -21,6 +21,30 @@ export default function NavBar() {
             </Link>
           </div>
           <div>
+            <Button
+              asChild
+              size="sm"
+              className="group bg-#f5f3ed hover:bg-[#f5f3ed]"
+            >
+              <Link
+                href="/NextLab"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2"
+              >
+                <h1 className="group transition-colors">
+                  <span className="text-white group-hover:text-[#24241f] transition-colors">
+                    Next
+                  </span>
+
+                  <span className="text-white group-hover:text-[#0066ff] transition-colors">
+                    Lab
+                  </span>
+                </h1>
+              </Link>
+            </Button>
+          </div>
+          <div>
             <Button asChild size="sm">
               <Link
                 href="https://github.com/KML-Research-Labs"
