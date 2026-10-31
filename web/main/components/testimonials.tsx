@@ -102,7 +102,10 @@ export default function Testimonials() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col items-center gap-3 text-center sm:mb-16">
           <h2 className="bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-xl font-semibold text-transparent sm:text-4xl">
-            Recent work on GitHub
+            <span>Recente work on </span>
+            <span className="bg-gradient-to-r from-[#3bdb00] via-[#31b700] to-[#299a00] bg-[length:200%_auto] bg-clip-text text-transparent">
+              Github
+            </span>
           </h2>
 
           <p className="mx-auto max-w-xl text-center text-muted-foreground">
@@ -254,7 +257,7 @@ export default function Testimonials() {
                       <CalendarDays className="size-3.5 shrink-0" />
                       <span>
                         Updated{" "}
-                        {new Intl.DateTimeFormat("pt-BR", {
+                        {new Intl.DateTimeFormat("en", {
                           day: "2-digit",
                           month: "short",
                           year: "numeric",

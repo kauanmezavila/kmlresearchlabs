@@ -101,7 +101,10 @@ export default function Projects() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-3 text-center sm:mb-16">
           <h2 className="bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-2xl font-semibold text-transparent sm:text-4xl">
-            Our Projects
+            <span>Our </span>
+            <span className="bg-gradient-to-r from-[#3bdb00] via-[#31b700] to-[#299a00] bg-[length:200%_auto] bg-clip-text text-transparent">
+              Projects
+            </span>
           </h2>
 
           <p className="mx-auto max-w-xl text-muted-foreground">

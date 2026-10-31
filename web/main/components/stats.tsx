@@ -82,7 +82,12 @@ export default function Stats() {
     <section className="px-4 py-20">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10">
-          <h2 className="text-2xl font-semibold tracking-tight">Our stats</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">
+            <span>Our </span>
+            <span className="bg-gradient-to-r from-[#3bdb00] via-[#31b700] to-[#299a00] bg-[length:200%_auto] bg-clip-text text-transparent">
+              stats
+            </span>
+          </h2>
           <p className="mt-2 text-sm text-muted-foreground">
             Across our public GitHub projects.
           </p>
