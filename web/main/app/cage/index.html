@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nicolas Cage</title>
+  </head>
+  <body>
+    <img id="cage" alt="Nicolas Cage" />
+
+    <script>
+      const cage = document.getElementById("cage");
+
+      cage.src = `https://www.randomcage.com/?${Date.now()}`;
+
+      cage.style.width = "400px";
+    </script>
+  </body>
+</html>
