@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Github } from "lucide-react";
-import NealHead from "./ui/NealHead";
 
 export default function NavBar() {
   return (
