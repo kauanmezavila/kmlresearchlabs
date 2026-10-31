@@ -91,6 +91,45 @@ export default function NavBar() {
             <Button
               asChild
               size="sm"
+              className="group bg-transparent hover:bg-[#23272A]"
+            >
+              <Link
+                href="https://discord.com/oauth2/authorize?client_id=1564434767179686079&permissions=125952&integration_type=0&scope=bot"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2"
+              >
+                <div className="relative inline-block">
+                  <h1 className="transition-colors">
+                    <span className="text-white">Install&nbsp;</span>
+
+                    <span className="text-white group-hover:text-[#5865F2] transition-colors">
+                      <b>Resenhudo</b>
+                    </span>
+                  </h1>
+
+                  <img
+                    src="https://cdn.simpleicons.org/discord/5865F2"
+                    alt=""
+                    className="
+            absolute -right-5 -top-2
+            h-5 w-5 object-contain
+            opacity-0
+            group-hover:opacity-100
+            group-focus-within:opacity-100
+            transition-opacity duration-300
+            rotate-20
+            pointer-events-none
+          "
+                  />
+                </div>
+              </Link>
+            </Button>
+          </div>
+          <div>
+            <Button
+              asChild
+              size="sm"
               className="group bg-#f5f3ed hover:bg-[#f5f3ed]"
             >
               <Link
