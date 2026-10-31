@@ -318,11 +318,6 @@ function RepositoryMirrorExplorer({
                   </>
                 )}
               </div>
-
-              <div className="border-t border-border px-4 py-4 text-xs leading-5 text-muted-foreground">
-                Files are fetched from the public GitHub repository and cached
-                briefly to reduce API requests.
-              </div>
             </aside>
 
             <section className="min-w-0">
