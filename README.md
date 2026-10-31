@@ -1,6 +1,8 @@
 # KML Research Labs
 
-KML Research Labs is a collection of projects, experiments, and research works from the team and community. This repository contains the code for the organization’s website where works: github status, projects cards, repos card with readme + redirect in site + repo mirrors
+KML Research Labs is a collection of projects, experiments, and research works from the team and community. This repository contains the code for the organization’s website where works: github status, projects cards, repos card with readme + redirect in site + repo mirrors, a simple place to share projects ideas and a way to apply projects..
+
+All other repos linked in this website can be acessed trough itself.
 
 ## Website
 
