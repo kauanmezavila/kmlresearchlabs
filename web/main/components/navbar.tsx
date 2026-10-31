@@ -1,11 +1,16 @@
+"use client";
+
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Github } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function NavBar() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border bg-background">
+    <nav className="sticky top-0 z-50 relative w-full border-b border-border bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div>
@@ -121,6 +126,18 @@ export default function NavBar() {
           </div>
         </div>
       </div>
+      {isHome && (
+        <div className="pointer-events-none absolute top-full left-0 h-24 w-full overflow-hidden">
+          <div
+            className="absolute -top-12 left-0 h-24 w-full 
+    bg-gradient-to-b 
+    from-[#52d12a]/60 
+    via-[#52d12a]/10 
+    to-transparent 
+    blur-2xl"
+          />
+        </div>
+      )}
     </nav>
   );
 }
