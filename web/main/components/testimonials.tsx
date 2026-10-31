@@ -106,7 +106,8 @@ export default function Testimonials() {
           </h2>
 
           <p className="mx-auto max-w-xl text-center text-muted-foreground">
-            A live list of public repositories from our organization and project pages.
+            A live list of public repositories from our organization and project
+            pages.
           </p>
 
           <a

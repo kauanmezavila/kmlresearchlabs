@@ -90,7 +90,11 @@ async function fetchReadmeRepos(): Promise<GitHubRepo[]> {
   ]);
   const targets = [
     ...new Map(
-      [...readme.matchAll(/https?:\/\/github\.com\/([^/\s)#?]+)\/([^/\s)#?]+)/gi)]
+      [
+        ...readme.matchAll(
+          /https?:\/\/github\.com\/([^/\s)#?]+)\/([^/\s)#?]+)/gi,
+        ),
+      ]
         .map((match) => ({
           owner: match[1],
           repo: match[2].replace(/\.git$/i, "").replace(/[.,;:!?]+$/, ""),
@@ -102,7 +106,10 @@ async function fetchReadmeRepos(): Promise<GitHubRepo[]> {
             !excluded.has(owner.toLowerCase()) &&
             !excluded.has(repo.toLowerCase()),
         )
-        .map((target) => [`${target.owner}/${target.repo}`.toLowerCase(), target]),
+        .map((target) => [
+          `${target.owner}/${target.repo}`.toLowerCase(),
+          target,
+        ]),
     ).values(),
   ];
 
@@ -113,7 +120,10 @@ async function fetchReadmeRepos(): Promise<GitHubRepo[]> {
           `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
         );
       } catch (error) {
-        console.warn(`Could not fetch GitHub repository ${owner}/${repo}:`, error);
+        console.warn(
+          `Could not fetch GitHub repository ${owner}/${repo}:`,
+          error,
+        );
         return null;
       }
     }),
@@ -147,7 +157,8 @@ export async function GET() {
       { repos, stats },
       {
         headers: {
-          "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+          "Cache-Control":
+            "public, s-maxage=3600, stale-while-revalidate=86400",
         },
       },
     );
