@@ -10,6 +10,12 @@ The main website is in `web/main` built with Next.js, React, TypeScript, and Tai
 
 The repository mirror and README pages are loaded from GitHub. The code also includes GitHub API routes under `/api/github` and `/api/gitcard`.
 
+## Easter Eggs
+
+- [/cage](https://kmlresearchlabs.vercel.app/cage) randomizes a [Nicolas Cage](https://kmlresearchlabs.vercel.app/cage) photo
+
+- [/HelloWorld](https://kmlresearchlabs.vercel.app/HelloWorld) just a Hello World
+
 ## Get started
 
 Install [Node.js](https://nodejs.org/) and [pnpm](https://pnpm.io/), then run the website locally:
