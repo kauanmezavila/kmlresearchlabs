@@ -4,6 +4,16 @@ const nextConfig = {
     root: process.cwd(),
   },
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "neal.fun",
+        pathname: "/**",
+      },
+    ],
+  },
+
   async rewrites() {
     return [
       {
