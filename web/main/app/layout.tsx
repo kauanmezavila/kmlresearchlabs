@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "./providers";
 import NavBar from "@/components/navbar";
+import KonamiSecret from "@/components/KonamiSecret";
 import { Geist } from "next/font/google";
 
 const geist = Geist({
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={`${geist.className} antialiased`}>
         <Providers>
           <NavBar />
+          <KonamiSecret />
           {children}
         </Providers>
       </body>
