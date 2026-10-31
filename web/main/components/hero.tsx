@@ -22,6 +22,9 @@ export default function Hero() {
           A home for experiments, tools and ideas from our community. Browse the
           work or jump into the source.
         </p>
+        <p className="text-[#0a0a0a]">
+          Hey man! ^ ^ v v &lt; &gt; &lt; &gt; b a
+        </p>
       </div>
     </section>
   );
