@@ -1,0 +1,70 @@
+{
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "hourNow",
+        "description": "Return the current UTC date and time.",
+        "parameters": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "runInShell",
+        "description": "Run a shell command and return its output and exit code.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "cmd": {
+              "type": "string",
+              "description": "The command to execute in the shell."
+            }
+          },
+          "required": ["cmd"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "runInShellCool",
+        "description": "Run a shell command, display its output, and return its output and exit code.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "cmd": {
+              "type": "string",
+              "description": "The command to execute in the shell."
+            }
+          },
+          "required": ["cmd"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "webSearch",
+        "description": "Search the web and return matching pages with extracted content.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "The search query"
+            }
+          },
+          "required": ["query"],
+          "additionalProperties": false
+        }
+      }
+    }
+  ]
+}

@@ -13,6 +13,14 @@ const projects = [
     favicon: "https://peloponeso.vercel.app/img/favicon.svg",
   },
   {
+    name: "tiny-agents [MIRROR]",
+    description: "The python framework for building harnesses and agents",
+    href: "/tiny-agents",
+    researcher: "Kauan M.",
+    favicon:
+      "https://raw.githubusercontent.com/kauanmezavila/tiny-agents/refs/heads/main/imgs/logo.jpg",
+  },
+  {
     name: "Harbor",
     description: "A simple way to share your GitHub projects.",
     href: "/harbor",
