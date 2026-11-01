@@ -10,7 +10,7 @@ export default function NextLab() {
   return (
     <iframe
       srcDoc={html}
-      title="Afterwords"
+      title="apply-a-project"
       style={{
         width: "100%",
         minHeight: "100vh",
