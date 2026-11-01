@@ -21,7 +21,7 @@ const Footer = () => {
                 />
               </Link>
               <p className="max-w-xs text-sm leading-relaxed text-muted-foreground ml-3">
-                A collection of open source projects and experiments.
+                A collection of open source projects, experiments and researchs.
               </p>
             </div>
           </div>
