@@ -36,3 +36,11 @@ pnpm start
 ## License
 
 This repository is licensed under the MIT License. See [LICENSE](LICENSE) for details.
+
+## Resenhudo
+
+A simple bot for discord that in the future will trigger updates into the site, today its incomplete and can only react messages in Discord.
+
+## Tiny agents
+
+A python framework developed to build agent and harnesses, in future wil create a KML Research Labs agent and an agent into the site to explain the researchs.
