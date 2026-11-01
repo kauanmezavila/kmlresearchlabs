@@ -105,7 +105,10 @@ function ProjectFavicon({ project }: { project: (typeof projects)[number] }) {
 
 export default function Projects() {
   return (
-    <section id="projects" className="px-4 py-16 sm:py-20">
+    <section
+      id="projects"
+      className="relative z-30 bg-[#080808] px-4 py-16 sm:py-20"
+    >
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 flex flex-col gap-3 text-center sm:mb-16">
           <h2 className="bg-linear-to-b from-foreground to-muted-foreground bg-clip-text text-2xl font-semibold text-transparent sm:text-4xl">
